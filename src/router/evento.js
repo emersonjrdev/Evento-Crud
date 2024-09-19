@@ -18,4 +18,10 @@ router.put('/:id', validateEventoId, validateEvento, EventController.update);
 // Excluir um evento
 router.delete('/:id', validateEventoId, EventController.delete);
 
+// Listar todos os participantes de um evento específico
+router.get('/:id/participante', validateEventoId, EventController.getParticipants);
+
+// Listar todos os participantes de um evento específico usando o eventoId
+router.get('/participante/por-evento/:eventoId', EventController.getPartiscipantsByEvent);
+
 module.exports = router;

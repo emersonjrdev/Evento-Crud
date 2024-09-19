@@ -94,18 +94,20 @@ const EventController = {
   },
 
   // Listar todos os participantes de um evento específico
-  getParticipants: async (req, res) => {
+  getParticipantsByEvent: async (req, res) => {
     try {
-      const { id } = req.params;
-      const evento = await Evento.findByPk(id, { include: Participante });
-
-      if (!evento) {
-        return res.status(404).json({ msg: "Evento não encontrado" });
+      const { eventoId } = req.params; // Certifique-se de que o parâmetro está correto
+      const participantes = await Participante.findAll({
+        where: { eventoId } // Verifique se a chave 'eventoId' está correta no modelo Participante
+      });
+  
+      if (!participantes || participantes.length === 0) {
+        return res.status(404).json({ msg: "Nenhum participante encontrado para este evento." });
       }
-
+  
       return res.status(200).json({
-        msg: "Participantes encontrados",
-        participantes: evento.Participantes,
+        msg: "Participantes encontrados com sucesso",
+        participantes,
       });
     } catch (error) {
       console.error(error);
