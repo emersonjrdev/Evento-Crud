@@ -106,6 +106,32 @@ const ParticipantController = {
       return res.status(500).json({ msg: "Erro ao excluir o participante." });
     }
   },
+
+
+  GetParticipants : async (req, res) => {
+    try {
+      const { eventoId } = req.params;
+      const participantes = await Participante.findAll({where : {eventoId : eventoId}});
+
+      if(!participantes){
+        return res.status(400).json({
+          msg : "Não tem participantes"
+        })
+
+      }
+
+      return res.status(200).json({
+          participantes
+      })
+
+
+      
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({ msg: "Erro" });
+    }
+  },
+
 };
 
 module.exports = ParticipantController;
